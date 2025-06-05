@@ -28,16 +28,38 @@ const Login = () => {
         password: formData.password
       });
 
+      console.log("Login response:", response.data); // Debug response shape
+
       if (response?.data?.success) {
-          const accessToken = response.data.data.accesstoken;
-      localStorage.setItem("token", accessToken);
+        const accessToken = response.data.data.accesstoken;
+        const role = response.data.data.user?.role;
+
+        if (!role) {
+          toast.error("User role missing in response.");
+          return;
+        }
+
+        localStorage.setItem("token", accessToken);
+        localStorage.setItem("role", role);
+
         toast.success("Login successful!");
+
         setTimeout(() => {
-          navigate('/af'); // Change to your actual dashboard path
-        }, 2000);
+          if (role === "user") {
+            navigate("/user/home");
+          } else if (role === "driver") {
+            navigate("/driver/home");
+          } else {
+            navigate("/"); // fallback route
+          }
+        }, 1000);
+      } else {
+        toast.error("Login failed. Please try again.");
       }
     } catch (error) {
+      console.error("Login error:", error);
       const message = error?.response?.data?.message || "Something went wrong";
+
       if (message === "User not register") {
         toast.error("Email is not registered.");
       } else if (message === "Check your password") {
@@ -85,7 +107,6 @@ const Login = () => {
             />
           </div>
           <div className="form-options">
-            {/* Changed from <a href=""> to Link for react-router */}
             <Link to="/forgotpassword" className="forgot-password-link">
               Forgot password?
             </Link>

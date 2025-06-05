@@ -13,6 +13,8 @@ import SignupDriver from './pages/SignupDriver';
 import ForgotPassword from './pages/forgotpassword';
 import Af from './pages/aflo';
 import Profile from './pages/Pro';
+import DriverHome from './pages/DriverHome';
+import UserHome from './pages/UserHome';
 import { CgProfile } from 'react-icons/cg';
 
 function App() {
@@ -33,6 +35,8 @@ function App() {
         <Route path="/forgotpassword" element={<ForgotPassword />} />
         <Route path ="/af" element={<Af/>}/>
         <Route path ="/profile" element={<Profile/>}/>
+        <Route path="/driver/home" element={<DriverHome />} />
+       <Route path="/user/home" element={<UserHome />} /> 
         {/* Add other routes as needed */}
       </Routes>
     </Router>
