@@ -9,7 +9,9 @@ import {
   uploadAvatar,
   userDetails,
   verifyEmailController,
-  updateUserDetails
+  updateUserDetails,
+  toggleDriverOnlineStatus,
+  getUserProfile
 } from '../controllers/usercontroller.js';
 import auth from '../middleware/auth.js';
 import upload from '../middleware/multer.js';
@@ -26,5 +28,7 @@ router.put('/forgot-password', forgotPasswordController);
 router.put('/reset-password', resetPasswordController);
 router.post('/refresh-token', refreshToken);
 router.get('/details', auth, userDetails);  // Completed this route
+router.post('/driver/toggle-status', auth, toggleDriverOnlineStatus);
+router.get('/profile', auth, getUserProfile);
 
 export default router;

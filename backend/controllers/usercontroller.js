@@ -487,3 +487,33 @@ export async function userDetails(request, response) {
         });
     }
 }
+//rider togle
+export const toggleDriverOnlineStatus = async (req, res) => {
+  try {
+    const driver = await UserModel.findById(req.userId);
+    if (!driver) {
+      return res.status(404).json({ message: "Driver not found" });
+    }
+    
+    driver.isOnline = req.body.isOnline;
+    await driver.save();
+
+    res.json({
+      message: `Driver is now ${driver.isOnline ? "Online" : "Offline"}`,
+      isOnline: driver.isOnline,
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Error toggling driver status" });
+  }
+};
+
+//get user profile
+export const getUserProfile = async (req, res) => {
+  try {
+    const user = await UserModel.findById(req.userId).select('-password');
+    res.status(200).json(user);
+  } catch (error) {
+    res.status(500).json({ message: 'Server error' });
+  }
+};
